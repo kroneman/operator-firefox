@@ -1,0 +1,25 @@
+{
+  "name": "operator-firefox",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Keyboard-driven tab management command runner for Firefox",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "watch": "vite build --watch --mode development",
+    "start": "web-ext run --source-dir dist",
+    "lint": "web-ext lint --source-dir dist"
+  },
+  "dependencies": {
+    "solid-js": "^1.9.3"
+  },
+  "devDependencies": {
+    "@types/firefox-webext-browser": "^120.0.0",
+    "typescript": "^5.6.3",
+    "vite": "^6.0.0",
+    "vite-plugin-solid": "^2.11.0",
+    "vite-plugin-web-extension": "^4.4.3",
+    "web-ext": "^8.3.0"
+  }
+}

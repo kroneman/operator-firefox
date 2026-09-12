@@ -1,0 +1,47 @@
+{
+  "manifest_version": 3,
+  "name": "Operator",
+  "description": "Keyboard-driven tab management command runner.",
+  "version": "0.1.0",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "operator-firefox@lkroneman",
+      "strict_min_version": "121.0",
+      "data_collection_permissions": { "required": ["none"] }
+    }
+  },
+  "action": {
+    "default_popup": "src/popup/index.html",
+    "default_title": "Open Operator"
+  },
+  "background": {
+    "scripts": ["src/background.ts"]
+  },
+  "permissions": ["tabs"],
+  "commands": {
+    "_execute_action": {
+      "description": "Open Operator",
+      "suggested_key": { "default": "Ctrl+Shift+Space" }
+    },
+    "pin_unpin_tab": {
+      "description": "Pin or unpin the current tab",
+      "suggested_key": { "default": "Ctrl+Shift+X" }
+    },
+    "move_tab_left": {
+      "description": "Move selected tab(s) left",
+      "suggested_key": { "default": "Ctrl+Shift+Left" }
+    },
+    "move_tab_right": {
+      "description": "Move selected tab(s) right",
+      "suggested_key": { "default": "Ctrl+Shift+Right" }
+    },
+    "pin_all_tabs": { "description": "Pin all tabs in the current window" },
+    "unpin_all_tabs": { "description": "Unpin all tabs in the current window" },
+    "close_all_unpinned_tabs": { "description": "Close all unpinned tabs" },
+    "close_tabs_to_the_right": { "description": "Close all tabs to the right" },
+    "move_tab_to_new_window": { "description": "Move selected tab(s) to a new window" },
+    "consolidate_tabs": { "description": "Consolidate tabs from all windows into this one" },
+    "move_tab_to_front": { "description": "Move selected tab(s) to the front" },
+    "move_tab_to_end": { "description": "Move selected tab(s) to the end" }
+  }
+}
