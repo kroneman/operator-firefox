@@ -98,3 +98,13 @@ body {
   font-size: 13px;
   text-align: center;
 }
+
+.notice {
+  margin: 6px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: var(--kbd-bg);
+  color: var(--fg);
+  font-size: 12px;
+  line-height: 1.4;
+}

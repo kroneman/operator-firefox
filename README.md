@@ -54,7 +54,12 @@ pick `dist/manifest.json`.
 
 Pin/unpin current tab · pin/unpin all · close unpinned · close tabs to the right
 · move tab(s) left/right/front/end · move tab(s) to a new window · consolidate
-all windows into this one.
+all windows into this one · copy the Firefox shortcuts page URL.
+
+> Note: Firefox blocks extensions from opening privileged `about:` pages
+> (`about:addons`, `about:config`, …) via `tabs.create`, so the shortcuts
+> command copies `about:addons` to the clipboard instead of navigating there —
+> paste it in the address bar and open ⚙ → Manage Extension Shortcuts.
 
 Default shortcuts: **Ctrl+Shift+Space** opens the popup. Assign or change any
 command's shortcut in `about:addons` → Manage Extension Shortcuts.

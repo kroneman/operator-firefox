@@ -17,7 +17,7 @@
   "background": {
     "scripts": ["src/background.ts"]
   },
-  "permissions": ["tabs"],
+  "permissions": ["tabs", "clipboardWrite"],
   "commands": {
     "_execute_action": {
       "description": "Open Operator",
