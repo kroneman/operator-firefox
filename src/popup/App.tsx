@@ -15,14 +15,14 @@ interface UiCommand {
 // best: copy the URL and tell the user exactly where to go.
 const localCommands: UiCommand[] = [
   {
-    id: "open_extension_shortcuts",
-    title: "Copy Firefox shortcuts page (about:addons)",
+    id: "open_keyboard_shortcuts",
+    title: "Copy Firefox shortcuts page (about:keyboard)",
     async local() {
       try {
-        await navigator.clipboard.writeText("about:addons");
-        return 'Copied "about:addons" — paste it in the address bar, then ⚙ → Manage Extension Shortcuts.';
+        await navigator.clipboard.writeText("about:keyboard");
+        return 'Copied "about:keyboard" — paste it in the address bar to customize keyboard shortcuts (Firefox 147+).';
       } catch {
-        return 'Go to "about:addons" in the address bar, then ⚙ → Manage Extension Shortcuts.';
+        return 'Go to "about:keyboard" in the address bar to customize keyboard shortcuts (Firefox 147+).';
       }
     },
   },

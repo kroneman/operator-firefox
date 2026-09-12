@@ -57,9 +57,11 @@ Pin/unpin current tab · pin/unpin all · close unpinned · close tabs to the ri
 all windows into this one · copy the Firefox shortcuts page URL.
 
 > Note: Firefox blocks extensions from opening privileged `about:` pages
-> (`about:addons`, `about:config`, …) via `tabs.create`, so the shortcuts
-> command copies `about:addons` to the clipboard instead of navigating there —
-> paste it in the address bar and open ⚙ → Manage Extension Shortcuts.
+> (`about:keyboard`, `about:addons`, …) via `tabs.create`, so the shortcuts
+> command copies `about:keyboard` (Firefox 147+'s native shortcut editor) to
+> the clipboard instead of navigating there — paste it in the address bar.
+> Operator's own extension shortcut is managed in `about:addons` → Manage
+> Extension Shortcuts.
 
 Default shortcuts: **Ctrl+Shift+Space** opens the popup. Assign or change any
 command's shortcut in `about:addons` → Manage Extension Shortcuts.
