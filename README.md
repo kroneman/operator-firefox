@@ -43,6 +43,10 @@ yarn build          # emits dist/ (or `yarn watch` to rebuild on change)
 yarn start          # launches Firefox with the extension loaded (web-ext)
 ```
 
+`yarn start` targets **Firefox Developer Edition** (`--firefox=deved`). For the
+standard release, run `yarn build && web-ext run -s dist` (default `firefox`),
+or pass a path: `web-ext run -s dist --firefox=/path/to/firefox`.
+
 Or load it manually: `about:debugging` → This Firefox → Load Temporary Add-on →
 pick `dist/manifest.json`.
 

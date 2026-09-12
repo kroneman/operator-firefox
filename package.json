@@ -8,7 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "watch": "vite build --watch --mode development",
-    "start": "web-ext run --source-dir dist",
+    "start": "web-ext run --source-dir dist --firefox=deved",
     "lint": "web-ext lint --source-dir dist"
   },
   "dependencies": {
