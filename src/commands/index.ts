@@ -132,15 +132,38 @@ export const commands: Command[] = [
     title: "Consolidate all windows into this one",
     async run() {
       const current = await browser.windows.getCurrent();
+      if (current.id === undefined) return;
       const all = await browser.windows.getAll({
         populate: true,
         windowTypes: ["normal"],
       });
+
+      // Gather every tab from the other windows, remembering which were pinned
+      // so we can restore that state once they're here.
+      const pinned: number[] = [];
+      const unpinned: number[] = [];
       for (const win of all) {
         if (win.id === current.id || !win.tabs) continue;
-        const ids = tabIds(win.tabs);
-        if (ids.length && current.id !== undefined) {
-          await browser.tabs.move(ids, { windowId: current.id, index: -1 });
+        for (const tab of win.tabs) {
+          if (tab.id === undefined) continue;
+          (tab.pinned ? pinned : unpinned).push(tab.id);
+        }
+      }
+
+      // Unpinned tabs go to the end of this window as-is.
+      if (unpinned.length) {
+        await browser.tabs.move(unpinned, { windowId: current.id, index: -1 });
+      }
+      // Firefox won't move a pinned tab past the unpinned ones, and a
+      // cross-window move can drop the pinned flag — so unpin at the source,
+      // move, then re-pin so they land in this window's pinned strip.
+      if (pinned.length) {
+        for (const id of pinned) {
+          await browser.tabs.update(id, { pinned: false });
+        }
+        await browser.tabs.move(pinned, { windowId: current.id, index: -1 });
+        for (const id of pinned) {
+          await browser.tabs.update(id, { pinned: true });
         }
       }
     },
