@@ -72,18 +72,45 @@ draft-then-review-then-publish works.
 
 To sign locally instead: `WEB_EXT_API_KEY=… WEB_EXT_API_SECRET=… yarn sign`.
 
-## Commands (v0.1)
+## Commands
 
-Pin/unpin current tab · pin/unpin all · close unpinned · close tabs to the right
-· move tab(s) left/right/front/end · move tab(s) to a new window · consolidate
-all windows into this one · copy the Firefox shortcuts page URL.
+Open the popup and type to fuzzy-find any command, or trigger the ones with a
+shortcut directly. Shortcuts are declared with `Ctrl`, which Firefox maps to
+`Cmd` on macOS.
 
-> Note: Firefox blocks extensions from opening privileged `about:` pages
-> (`about:keyboard`, `about:addons`, …) via `tabs.create`, so the shortcuts
-> command copies `about:keyboard` (Firefox 147+'s native shortcut editor) to
-> the clipboard instead of navigating there — paste it in the address bar.
-> Operator's own extension shortcut is managed in `about:addons` → Manage
-> Extension Shortcuts.
+| Command | Default shortcut | What it does |
+| --- | --- | --- |
+| Open Operator | `Ctrl+Shift+Space` | Open the command popup |
+| Search tabs | `Ctrl+Shift+E` | Open the popup in tab-search mode — filter tabs across all windows (most-recently-used first, current tab excluded) and jump to one |
+| Pin / unpin current tab | `Ctrl+Shift+X` | Toggle the active tab's pinned state |
+| Move tab(s) left | `Ctrl+Shift+Left` | Shift the selected tab(s) one position left |
+| Move tab(s) right | `Ctrl+Shift+Right` | Shift the selected tab(s) one position right |
+| Move tab(s) to the front | — | Move the selected tab(s) to the start |
+| Move tab(s) to the end | — | Move the selected tab(s) to the end |
+| Move tab(s) to a new window | — | Pull the selected tab(s) into a fresh window |
+| Pin all tabs | — | Pin every tab in the window |
+| Unpin all tabs | — | Unpin every tab in the window |
+| Close all unpinned tabs | — | Close unpinned tabs, keeping the active one |
+| Close tabs to the right | — | Close unpinned tabs after the active one |
+| Close other tabs on this domain | — | Close other unpinned tabs sharing the active tab's hostname |
+| Consolidate all windows into this one | — | Gather tabs from every other window here, preserving pinned state |
+| Copy shortcuts page URL | — | Copy `about:keyboard` to the clipboard (popup only) |
 
-Default shortcuts: **Ctrl+Shift+Space** opens the popup. Assign or change any
-command's shortcut in `about:addons` → Manage Extension Shortcuts.
+"Selected tab(s)" means the highlighted tabs when you've multi-selected,
+otherwise just the active tab. Commands without a default shortcut still run from
+the popup, and any command's shortcut can be (re)assigned in
+`about:addons` → Manage Extension Shortcuts.
+
+> Firefox blocks extensions from opening privileged `about:` pages via
+> `tabs.create`, so "Copy shortcuts page URL" copies `about:keyboard` (Firefox
+> 147+'s native shortcut editor) instead of navigating there — paste it in the
+> address bar.
+
+### Heads up: unbind Firefox's "switch text direction"
+
+Firefox binds `Ctrl+Shift+X` (`Cmd+Shift+X` on macOS) to **switch text
+direction**, which collides with Operator's pin/unpin shortcut — so pin/unpin
+may not fire. Open **`about:keyboard`** (Firefox 147+) and unbind "switch text
+direction" to free the shortcut for Operator. Note the two live in different
+places: Firefox's own shortcuts are edited in `about:keyboard`, Operator's in
+`about:addons` → Manage Extension Shortcuts.
