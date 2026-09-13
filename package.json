@@ -9,7 +9,9 @@
     "build": "vite build",
     "watch": "vite build --watch --mode development",
     "start": "web-ext run --source-dir dist --firefox=deved",
-    "lint": "web-ext lint --source-dir dist"
+    "lint": "web-ext lint --source-dir dist",
+    "package": "yarn build && web-ext build --source-dir dist --artifacts-dir web-ext-artifacts --overwrite-dest",
+    "sign": "yarn build && web-ext sign --source-dir dist --artifacts-dir web-ext-artifacts --channel unlisted"
   },
   "dependencies": {
     "solid-js": "^1.9.3"
