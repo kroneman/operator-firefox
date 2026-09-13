@@ -32,6 +32,17 @@ function tabIds(tabs: Tab[]): number[] {
   return tabs.map((t) => t.id).filter((id): id is number => id !== undefined);
 }
 
+// Hostname of a tab URL, or "" for tabs without a parseable URL (about: pages,
+// view-source:, etc.) so they never match a real domain.
+function hostOf(url: string | undefined): string {
+  if (!url) return "";
+  try {
+    return new URL(url).hostname;
+  } catch {
+    return "";
+  }
+}
+
 export interface Command {
   id: string;
   title: string;
@@ -88,6 +99,19 @@ export const commands: Command[] = [
       const current = await activeTab();
       const tabs = await windowTabs();
       const toClose = tabs.filter((t) => !t.pinned && t.index > current.index);
+      if (toClose.length) await browser.tabs.remove(tabIds(toClose));
+    },
+  },
+  {
+    id: "close_other_same_domain",
+    title: "Close other tabs on this domain",
+    async run() {
+      const current = await activeTab();
+      const host = hostOf(current?.url);
+      if (!host) return;
+      const toClose = (await windowTabs()).filter(
+        (t) => t.id !== current.id && !t.pinned && hostOf(t.url) === host,
+      );
       if (toClose.length) await browser.tabs.remove(tabIds(toClose));
     },
   },
