@@ -1,0 +1,50 @@
+name: Release
+
+# Fires when a GitHub Release is published. The release's tag (e.g. v0.2.0)
+# is the source of truth for the version: it is injected into the manifest,
+# built, signed by AMO (unlisted), and the signed .xpi is attached back to
+# the release's assets.
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write # required to upload the signed .xpi as a release asset
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Set version from release tag
+        run: node scripts/set-version.mjs "${{ github.event.release.tag_name }}"
+
+      - name: Build
+        run: yarn build
+
+      - name: Lint
+        run: yarn web-ext lint --source-dir dist
+
+      - name: Sign (AMO, unlisted)
+        env:
+          WEB_EXT_API_KEY: ${{ secrets.AMO_JWT_ISSUER }}
+          WEB_EXT_API_SECRET: ${{ secrets.AMO_JWT_SECRET }}
+        run: >
+          yarn web-ext sign
+          --source-dir dist
+          --artifacts-dir web-ext-artifacts
+          --channel unlisted
+
+      - name: Attach signed .xpi to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "${{ github.event.release.tag_name }}" web-ext-artifacts/*.xpi --clobber

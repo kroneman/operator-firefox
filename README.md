@@ -50,6 +50,28 @@ or pass a path: `web-ext run -s dist --firefox=/path/to/firefox`.
 Or load it manually: `about:debugging` → This Firefox → Load Temporary Add-on →
 pick `dist/manifest.json`.
 
+## Release
+
+Releases are automated. Publishing a GitHub Release triggers
+[`.github/workflows/release.yml`](.github/workflows/release.yml), which reads the
+release tag as the version, injects it into `manifest.json` and `package.json`
+(via `scripts/set-version.mjs`), builds, lints, signs the extension on
+[AMO](https://addons.mozilla.org) (`--channel unlisted`), and attaches the
+signed `.xpi` back to the release's assets.
+
+Tags are semver (`0.2.0` — a leading `v` is accepted and stripped). Publishing a
+_draft_ does not fire the workflow; only a published (non-draft) release does, so
+draft-then-review-then-publish works.
+
+**One-time setup** — add two repository secrets
+(Settings → Secrets and variables → Actions) from an
+[AMO API key](https://addons.mozilla.org/developers/addon/api/key/):
+
+- `AMO_JWT_ISSUER` — the JWT issuer (e.g. `user:12345:67`)
+- `AMO_JWT_SECRET` — the JWT secret
+
+To sign locally instead: `WEB_EXT_API_KEY=… WEB_EXT_API_SECRET=… yarn sign`.
+
 ## Commands (v0.1)
 
 Pin/unpin current tab · pin/unpin all · close unpinned · close tabs to the right
